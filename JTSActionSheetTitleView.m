@@ -19,6 +19,8 @@
 
 @implementation JTSActionSheetTitleView
 
+#pragma mark - Public
+
 - (instancetype)initWithTitle:(NSString *)title
                        theme:(JTSActionSheetTheme *)theme
                     position:(JTSActionSheetItemViewPosition)position {
@@ -28,6 +30,10 @@
         _title = title.copy;
     }
     return self;
+}
+
+- (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
+    return 0;
 }
 
 @end

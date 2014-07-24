@@ -10,11 +10,14 @@
 
 #import "JTSActionSheetItem.h"
 
+extern CGFloat const JTSActionSheetButtonHeight;
+
 @interface JTSActionSheetButton : JTSActionSheetItemView
 
 @property (strong, nonatomic, readonly) JTSActionSheetItem *item;
 
 - (instancetype)initWithItem:(JTSActionSheetItem *)item
+                isCancelItem:(BOOL)isCancelItem
                        theme:(JTSActionSheetTheme *)theme
                     position:(JTSActionSheetItemViewPosition)position;
 

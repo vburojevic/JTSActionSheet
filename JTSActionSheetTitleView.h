@@ -14,4 +14,6 @@
                         theme:(JTSActionSheetTheme *)theme
                      position:(JTSActionSheetItemViewPosition)position;
 
+- (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth;
+
 @end
