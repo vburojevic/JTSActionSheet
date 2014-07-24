@@ -16,6 +16,6 @@
 
 - (void)playPresentationAnimation:(BOOL)animated;
 
-- (void)playDismissalAnimation:(BOOL)animated;
+- (void)playDismissalAnimation:(BOOL)animated completion:(void(^)(void))completion;
 
 @end

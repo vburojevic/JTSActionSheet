@@ -33,4 +33,6 @@ typedef NS_ENUM(NSInteger, JTSActionSheetStyle) {
 @property (strong, nonatomic) UIColor *backgroundColor; // Only used with JTSActionSheetStyle_SolidColor
 @property (strong, nonatomic) UIColor *backdropShadowColor;
 
++ (instancetype)defaultTheme;
+
 @end

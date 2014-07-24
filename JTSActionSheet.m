@@ -11,6 +11,7 @@
 
 #import "JTSActionSheetButton.h"
 #import "JTSActionSheetTitleView.h"
+#import "JTSActionSheetPresenter.h"
 
 CGFloat const JTSActionSheetMargin = 8.0f;
 
@@ -42,18 +43,29 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         NSParameterAssert(items.count);
         NSParameterAssert(cancelItem);
         
+        _theme = theme;
+        
         if (title.length) {
             _title = title.copy;
             _titleView = [[JTSActionSheetTitleView alloc] initWithTitle:title theme:theme position:JTSActionSheetItemViewPosition_Top];
+            [self addSubview:_titleView];
         }
         
         _actionItems = items.copy;
         _actionButtons = [self actionButtonsForItems:items theme:theme titleWillBeUsed:(_title != nil)];
+        for (JTSActionSheetButton *button in _actionButtons) {
+            [self addSubview:button];
+        }
         
         _cancelItem = cancelItem;
         _cancelButton = [[JTSActionSheetButton alloc] initWithItem:cancelItem isCancelItem:YES theme:theme position:JTSActionSheetItemViewPosition_Single];
+        [self addSubview:_cancelButton];
     }
     return self;
+}
+
+- (void)showInView:(UIView *)view {
+    [[JTSActionSheetPresenter sharedInstance] presentSheet:self fromView:view];
 }
 
 #pragma mark - UIView
@@ -62,7 +74,7 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     
     [super layoutSubviews];
     CGFloat cursor = self.bounds.size.height;
-    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, self.bounds.size.width - JTSActionSheetMargin/2.0f, JTSActionSheetButtonHeight);
+    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, self.bounds.size.width - JTSActionSheetMargin * 2.0f, JTSActionSheetButtonHeight);
     
     // CANCEL BUTTON
     CGRect cancelFrame = buttonBounds;
@@ -81,6 +93,7 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         CGRect buttonFrame = buttonBounds;
         buttonFrame.origin.y = cursor - buttonBounds.size.height;
         button.frame = buttonFrame;
+        cursor -= buttonFrame.size.height;
         if (self.actionButtons.lastObject != button) {
             cursor -= gap;
         }
@@ -137,7 +150,7 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     NSMutableArray *buttons = [NSMutableArray array];
     NSInteger ajdustedButtonCount = items.count;
     
-    for (NSInteger index; index < buttons.count; index++) {
+    for (NSInteger index = 0; index < items.count; index++) {
         NSInteger adjustedIndex = (titleWillBeUsed) ? index + 1 : index;
         JTSActionSheetItemViewPosition position = [self positionForIndex:adjustedIndex totalCount:ajdustedButtonCount];
         JTSActionSheetItem *item = items[index];
@@ -157,10 +170,10 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     }
     else {
         if (index == 0) {
-            position = JTSActionSheetItemViewPosition_Top;
+            position = JTSActionSheetItemViewPosition_Bottom;
         }
         else if (index == totalCount-1) {
-            position = JTSActionSheetItemViewPosition_Bottom;
+            position = JTSActionSheetItemViewPosition_Top;
         }
         else {
             position = JTSActionSheetItemViewPosition_Middle;

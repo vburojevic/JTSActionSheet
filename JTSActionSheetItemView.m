@@ -17,6 +17,8 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
 @property (strong, nonatomic, readwrite) JTSActionSheetTheme *theme;
 @property (assign, nonatomic, readwrite) JTSActionSheetItemViewPosition position;
 @property (strong, nonatomic) UIToolbar *blurringBar;
+@property (strong, nonatomic) CAShapeLayer *roundedCornerMask;
+@property (assign, nonatomic) BOOL isInitialized;
 
 @end
 
@@ -27,12 +29,14 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
 - (instancetype)initWithTheme:(JTSActionSheetTheme *)theme position:(JTSActionSheetItemViewPosition)position {
     self = [super initWithFrame:CGRectMake(0, 0, 304, 44)];
     if (self) {
-        self.clipsToBounds = YES;
+        
+        _isInitialized = YES;
         _theme = theme;
         _position = position;
+                
         if (theme.style == JTSActionSheetStyle_WhiteBlurred) {
             self.blurringBar = [[UIToolbar alloc] initWithFrame:CGRectInset(self.bounds, -1, -1)];
-            self.blurringBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            self.blurringBar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
             self.blurringBar.barStyle = UIBarStyleDefault;
             [self addSubview:self.blurringBar];
         }
@@ -52,16 +56,27 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
 #pragma mark - UIView
 
 - (void)setFrame:(CGRect)frame {
-    BOOL clippingMaskIsDirty = (frame.size.width != self.bounds.size.width);
-    [super setFrame:frame];
-    if (clippingMaskIsDirty && self.position != JTSActionSheetItemViewPosition_Middle) {
-        UIRectCorner corners = [self cornerClipForPosition:self.position];
-        CGSize radii = CGSizeMake(JTSActionSheetItemViewCornerRadius, JTSActionSheetItemViewCornerRadius);
-        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:radii];
-        CAShapeLayer *clipper = [[CAShapeLayer alloc] init];
-        clipper.frame = self.bounds;
-        clipper.path = path.CGPath;
-        self.layer.mask = clipper;
+    
+    if (self.isInitialized == NO) {
+        [super setFrame:frame];
+    }
+    else if (self.position == JTSActionSheetItemViewPosition_Middle) {
+        [super setFrame:frame];
+    }
+    else {
+        BOOL clippingMaskIsDirty = (frame.size.width != self.bounds.size.width);
+        [super setFrame:frame];
+        if (clippingMaskIsDirty || self.roundedCornerMask == nil) {
+            UIRectCorner corners = [self cornerClipForPosition:self.position];
+            CGSize radii = CGSizeMake(JTSActionSheetItemViewCornerRadius, JTSActionSheetItemViewCornerRadius);
+            if (self.roundedCornerMask == nil) {
+                self.roundedCornerMask = [CAShapeLayer layer];
+                self.roundedCornerMask.frame = self.bounds;
+                self.layer.mask = self.roundedCornerMask;
+            }
+            self.roundedCornerMask.path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:radii].CGPath;
+        }
+        NSLog(@"%@", self.blurringBar);
     }
 }
 
@@ -76,7 +91,7 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
             corners = UIRectCornerAllCorners;
             break;
         case JTSActionSheetItemViewPosition_Top:
-            corners = UIRectCornerBottomLeft | UIRectCornerBottomRight;
+            corners = UIRectCornerTopLeft | UIRectCornerTopRight;
             break;
         case JTSActionSheetItemViewPosition_Middle:
             NSLog(@"[%@ cornerClipForPosition:] - Warning! Do not round corners for the middle position.", NSStringFromClass([self class]));

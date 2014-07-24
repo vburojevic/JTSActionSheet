@@ -30,4 +30,6 @@ static inline JTSActionSheetItem * JTSActionSheetDefaultCancelItem(NSString *alt
                   actionItems:(NSArray *)items
                    cancelItem:(JTSActionSheetItem *)cancelItem;
 
+- (void)showInView:(UIView *)view;
+
 @end

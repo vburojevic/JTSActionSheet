@@ -35,22 +35,28 @@
 - (void)playPresentationAnimation:(BOOL)animated {
     if (self.sheetIsVisible == NO) {
         self.sheetIsVisible = YES;
-        UIViewAnimationOptions options = UIViewAnimationOptionBeginFromCurrentState | 0 << 16; // unpublished default curve
-        [UIView animateWithDuration:0.3 delay:0 options:options animations:^{
+        UIViewAnimationOptions options = 7 << 16; // unpublished default curve
+        CGFloat duration = (animated) ? 0.3 : 0;
+        [UIView animateWithDuration:duration delay:0 options:options animations:^{
             self.sheet.transform = CGAffineTransformIdentity;
             self.backdropShadowView.alpha = 1;
         } completion:nil];
     }
 }
 
-- (void)playDismissalAnimation:(BOOL)animated {
+- (void)playDismissalAnimation:(BOOL)animated completion:(void(^)(void))completion {
     if (self.sheetIsVisible == YES) {
         self.sheetIsVisible = NO;
-        UIViewAnimationOptions options = UIViewAnimationOptionBeginFromCurrentState | 0 << 16; // unpublished default curve
-        [UIView animateWithDuration:0.3 delay:0 options:options animations:^{
+        UIViewAnimationOptions options = 6 << 16; // unpublished default curve
+        CGFloat duration = (animated) ? 0.3 : 0;
+        [UIView animateWithDuration:duration delay:0 options:options animations:^{
             self.sheet.transform = CGAffineTransformMakeTranslation(0, self.sheet.bounds.size.height);
             self.backdropShadowView.alpha = 0;
-        } completion:nil];
+        } completion:^(BOOL finished) {
+            if (completion) {
+                completion();
+            }
+        }];
     }
 }
 
@@ -58,6 +64,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor clearColor];
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     self.backdropShadowView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.backdropShadowView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -80,8 +89,7 @@
     CGFloat actionSheetWidth = self.view.bounds.size.width;
     CGFloat actionSheetHeight = [self.sheet intrinsicHeightGivenAvailableWidth:actionSheetWidth];
     self.sheet.bounds = CGRectMake(0, 0, actionSheetWidth, actionSheetHeight);
-    self.sheet.center = CGPointMake(roundf(actionSheetWidth / 2.0),
-                                    roundf(self.view.bounds.size.height - actionSheetHeight / 2.0));
+    self.sheet.center = CGPointMake(roundf(actionSheetWidth / 2.0), roundf(self.view.bounds.size.height - actionSheetHeight / 2.0));
     if (self.sheetIsVisible) {
         self.sheet.transform = CGAffineTransformIdentity;
     } else {

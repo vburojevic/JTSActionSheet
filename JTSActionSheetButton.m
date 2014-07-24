@@ -16,6 +16,7 @@ CGFloat const JTSActionSheetButtonHeight = 44.0;
 
 @property (assign, nonatomic) BOOL isCancelItem;
 @property (strong, nonatomic, readwrite) JTSActionSheetItem *item;
+@property (strong, nonatomic) UIButton *button;
 
 @end
 
