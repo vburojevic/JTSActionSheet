@@ -47,12 +47,13 @@ CGFloat const JTSActionSheetButtonHeight = 44.0;
             [self.button setTitleColor:theme.normalButtonColor forState:UIControlStateNormal];
         }
         
-        UIImage *selectedImage = [JTSActionSheetImageUtility imageWithColor:[UIColor colorWithWhite:0 alpha:0.2]];
-        [self.button setBackgroundImage:selectedImage forState:UIControlStateHighlighted];
+        UIImage *highlightedImage = [JTSActionSheetImageUtility imageWithColor:[UIColor colorWithWhite:0.0 alpha:0.1]];
+        [self.button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
         
         [self.button setTitle:item.title forState:UIControlStateNormal];
         
         [self addSubview:self.button];
+
     }
     return self;
 }

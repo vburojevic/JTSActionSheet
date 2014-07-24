@@ -11,7 +11,7 @@
 #import "JTSActionSheet.h"
 #import "JTSActionSheetViewController.h"
 
-@interface JTSActionSheetPresenter ()
+@interface JTSActionSheetPresenter () <JTSActionSheetViewControllerDelegate>
 
 @property (strong, nonatomic) JTSActionSheetViewController *currentViewController;
 
@@ -37,20 +37,25 @@
     NSAssert(rootVC, @"JTSActionSheet must be presented from a view with a window with a root view controller.");
     
     self.currentViewController = [[JTSActionSheetViewController alloc] initWithActionSheet:sheet];
+    self.currentViewController.delegate = self;
     self.currentViewController.view.frame = rootVC.view.frame;
     self.currentViewController.view.transform = rootVC.view.transform;
     [rootVC.view.superview addSubview:self.currentViewController.view];
     
     [self.currentViewController playPresentationAnimation:YES tintableUnderlyingView:rootVC.view];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self.currentViewController playDismissalAnimation:YES tintableUnderlyingView:rootVC.view completion:^{
-            [self.currentViewController.view removeFromSuperview];
-            self.currentViewController = nil;
-        }];
-    });
 }
 
 #pragma mark - Private
+
+- (void)actionSheetViewControllerDidDismiss:(JTSActionSheetViewController *)viewController {
+
+    UIWindow *window = viewController.view.window;
+    UIViewController *rootVC = window.rootViewController;
+
+    [self.currentViewController playDismissalAnimation:YES tintableUnderlyingView:rootVC.view completion:^{
+        [self.currentViewController.view removeFromSuperview];
+        self.currentViewController = nil;
+    }];
+}
 
 @end

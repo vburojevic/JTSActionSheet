@@ -12,10 +12,9 @@
 
 + (UIImage *)imageWithColor:(UIColor *)color {
     
-    CGSize someSize = CGSizeMake(20, 20);
+    CGSize someSize = CGSizeMake(304, 20);
     UIGraphicsBeginImageContext(someSize);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetBlendMode(context, kCGBlendModeSourceAtop);
     CGContextSetFillColorWithColor(context, color.CGColor);
     CGContextFillRect(context, CGRectMake(0, 0, someSize.width, someSize.height));
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();

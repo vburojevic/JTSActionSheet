@@ -16,6 +16,7 @@
 @property (strong, nonatomic) JTSActionSheet *sheet;
 @property (strong, nonatomic) UIView *backdropShadowView;
 @property (assign, nonatomic) BOOL sheetIsVisible;
+@property (strong, nonatomic) UITapGestureRecognizer *dismissTapRecognizer;
 
 @end
 
@@ -70,6 +71,9 @@
     self.view.backgroundColor = [UIColor clearColor];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
+    self.dismissTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissTapRecognized:)];
+    [self.view addGestureRecognizer:self.dismissTapRecognizer];
+    
     self.backdropShadowView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.backdropShadowView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.backdropShadowView.backgroundColor = self.sheet.theme.backdropShadowColor;
@@ -97,6 +101,10 @@
     } else {
         self.sheet.transform = CGAffineTransformMakeTranslation(0, actionSheetHeight);
     }
+}
+
+- (void)dismissTapRecognized:(UITapGestureRecognizer *)sender {
+    [self.delegate actionSheetViewControllerDidDismiss:self];
 }
 
 @end

@@ -27,8 +27,8 @@
     JTSActionSheetTheme *theme = [[JTSActionSheetTheme alloc] init];
     theme.style = JTSActionSheetStyle_SolidColor;
     theme.titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-    theme.normalButtonFont = [UIFont systemFontOfSize:17];
-    theme.boldButtonFont = [UIFont boldSystemFontOfSize:17];
+    theme.normalButtonFont = [UIFont systemFontOfSize:19];
+    theme.boldButtonFont = [UIFont boldSystemFontOfSize:19];
     theme.normalButtonColor = JTSDefaultActionColor;
     theme.destructiveButtonColor = JTSDefaultDesctructionColor;
     theme.titleColor = JTSDefaultTitleColor;

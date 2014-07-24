@@ -8,9 +8,17 @@
 
 @import UIKit;
 
-@class JTSActionSheet;
+@class JTSActionSheet, JTSActionSheetViewController;
+
+@protocol JTSActionSheetViewControllerDelegate <NSObject>
+
+- (void)actionSheetViewControllerDidDismiss:(JTSActionSheetViewController *)viewController;
+
+@end
 
 @interface JTSActionSheetViewController : UIViewController
+
+@property (weak, nonatomic) id <JTSActionSheetViewControllerDelegate> delegate;
 
 - (instancetype)initWithActionSheet:(JTSActionSheet *)sheet;
 
