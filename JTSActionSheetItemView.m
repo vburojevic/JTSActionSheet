@@ -16,7 +16,7 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
 
 @property (strong, nonatomic, readwrite) JTSActionSheetTheme *theme;
 @property (assign, nonatomic, readwrite) JTSActionSheetItemViewPosition position;
-@property (strong, nonatomic) UIToolbar *blurringBar;
+@property (strong, nonatomic) UIView *blurringView;
 @property (strong, nonatomic) CAShapeLayer *roundedCornerMask;
 @property (assign, nonatomic) BOOL isInitialized;
 
@@ -35,16 +35,10 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
         _position = position;
                 
         if (theme.style == JTSActionSheetStyle_WhiteBlurred) {
-            self.blurringBar = [[UIToolbar alloc] initWithFrame:CGRectInset(self.bounds, -1, -1)];
-            self.blurringBar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-            self.blurringBar.barStyle = UIBarStyleDefault;
-            [self addSubview:self.blurringBar];
+            NSAssert(NO, @"Blurred themes not yet supported");
         }
         else if (theme.style == JTSActionSheetStyle_DarkBlurred) {
-            self.blurringBar = [[UIToolbar alloc] initWithFrame:CGRectInset(self.bounds, -1, -1)];
-            self.blurringBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-            self.blurringBar.barStyle = UIBarStyleBlack;
-            [self addSubview:self.blurringBar];
+            NSAssert(NO, @"Blurred themes not yet supported");
         }
         else {
             self.backgroundColor = theme.backgroundColor;
@@ -76,7 +70,6 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
             }
             self.roundedCornerMask.path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:radii].CGPath;
         }
-        NSLog(@"%@", self.blurringBar);
     }
 }
 

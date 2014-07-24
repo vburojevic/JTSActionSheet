@@ -32,24 +32,26 @@
     return self;
 }
 
-- (void)playPresentationAnimation:(BOOL)animated {
+- (void)playPresentationAnimation:(BOOL)animated tintableUnderlyingView:(UIView *)view {
     if (self.sheetIsVisible == NO) {
         self.sheetIsVisible = YES;
         UIViewAnimationOptions options = 7 << 16; // unpublished default curve
         CGFloat duration = (animated) ? 0.3 : 0;
         [UIView animateWithDuration:duration delay:0 options:options animations:^{
+            view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
             self.sheet.transform = CGAffineTransformIdentity;
             self.backdropShadowView.alpha = 1;
         } completion:nil];
     }
 }
 
-- (void)playDismissalAnimation:(BOOL)animated completion:(void(^)(void))completion {
+- (void)playDismissalAnimation:(BOOL)animated tintableUnderlyingView:(UIView *)view completion:(void(^)(void))completion {
     if (self.sheetIsVisible == YES) {
         self.sheetIsVisible = NO;
         UIViewAnimationOptions options = 6 << 16; // unpublished default curve
         CGFloat duration = (animated) ? 0.3 : 0;
         [UIView animateWithDuration:duration delay:0 options:options animations:^{
+            view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
             self.sheet.transform = CGAffineTransformMakeTranslation(0, self.sheet.bounds.size.height);
             self.backdropShadowView.alpha = 0;
         } completion:^(BOOL finished) {
@@ -87,7 +89,7 @@
 
 - (void)repositionSheet {
     CGFloat actionSheetWidth = self.view.bounds.size.width;
-    CGFloat actionSheetHeight = [self.sheet intrinsicHeightGivenAvailableWidth:actionSheetWidth];
+    CGFloat actionSheetHeight = ceilf([self.sheet intrinsicHeightGivenAvailableWidth:actionSheetWidth]);
     self.sheet.bounds = CGRectMake(0, 0, actionSheetWidth, actionSheetHeight);
     self.sheet.center = CGPointMake(roundf(actionSheetWidth / 2.0), roundf(self.view.bounds.size.height - actionSheetHeight / 2.0));
     if (self.sheetIsVisible) {

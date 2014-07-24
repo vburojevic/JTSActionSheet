@@ -41,10 +41,10 @@
     self.currentViewController.view.transform = rootVC.view.transform;
     [rootVC.view.superview addSubview:self.currentViewController.view];
     
-    [self.currentViewController playPresentationAnimation:YES];
+    [self.currentViewController playPresentationAnimation:YES tintableUnderlyingView:rootVC.view];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self.currentViewController playDismissalAnimation:YES completion:^{
+        [self.currentViewController playDismissalAnimation:YES tintableUnderlyingView:rootVC.view completion:^{
             [self.currentViewController.view removeFromSuperview];
             self.currentViewController = nil;
         }];

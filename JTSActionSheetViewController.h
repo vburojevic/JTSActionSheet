@@ -14,8 +14,8 @@
 
 - (instancetype)initWithActionSheet:(JTSActionSheet *)sheet;
 
-- (void)playPresentationAnimation:(BOOL)animated;
+- (void)playPresentationAnimation:(BOOL)animated tintableUnderlyingView:(UIView *)view;
 
-- (void)playDismissalAnimation:(BOOL)animated completion:(void(^)(void))completion;
+- (void)playDismissalAnimation:(BOOL)animated tintableUnderlyingView:(UIView *)view completion:(void(^)(void))completion;
 
 @end

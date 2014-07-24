@@ -23,6 +23,7 @@ CGFloat const JTSActionSheetMargin = 8.0f;
 @property (strong, nonatomic) JTSActionSheetItem *cancelItem;
 @property (strong, nonatomic) JTSActionSheetTitleView *titleView;
 @property (strong, nonatomic) NSArray *actionButtons;
+@property (strong, nonatomic) NSArray *actionButtonSeparators;
 @property (strong, nonatomic) JTSActionSheetButton *cancelButton;
 
 @end
@@ -57,6 +58,14 @@ CGFloat const JTSActionSheetMargin = 8.0f;
             [self addSubview:button];
         }
         
+        NSInteger numberOfSeparatorsRequired = _actionButtons.count - 1;
+        if (numberOfSeparatorsRequired) {
+            _actionButtonSeparators = [self actionSeparators:numberOfSeparatorsRequired theme:theme];
+            for (UIView *separator in _actionButtonSeparators) {
+                [self addSubview:separator];
+            }
+        }
+        
         _cancelItem = cancelItem;
         _cancelButton = [[JTSActionSheetButton alloc] initWithItem:cancelItem isCancelItem:YES theme:theme position:JTSActionSheetItemViewPosition_Single];
         [self addSubview:_cancelButton];
@@ -88,14 +97,21 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     // GAP BETWEEN EACH ACTION BUTTON
     CGFloat gap = 1.0f / [UIScreen mainScreen].scale;
     
-    // FRAME FOR EACH ACTION BUTTON
-    for (JTSActionSheetButton *button in self.actionButtons) {
+    // FRAME FOR EACH ACTION BUTTON & SEPARATOR
+    for (NSInteger index = 0; index < self.actionButtons.count; index++) {
+        
+        JTSActionSheetButton *button = self.actionButtons[index];
+        
         CGRect buttonFrame = buttonBounds;
         buttonFrame.origin.y = cursor - buttonBounds.size.height;
         button.frame = buttonFrame;
         cursor -= buttonFrame.size.height;
+        
         if (self.actionButtons.lastObject != button) {
             cursor -= gap;
+            UIView *separator = self.actionButtonSeparators[index];
+            CGRect separatorFrame = CGRectMake(buttonFrame.origin.x, cursor, buttonFrame.size.width, gap);
+            separator.frame = separatorFrame;
         }
     }
     
@@ -181,6 +197,21 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     }
     
     return position;
+}
+
+- (NSArray *)actionSeparators:(NSInteger)numberNeeded theme:(JTSActionSheetTheme *)theme {
+    
+    NSMutableArray *separators = [NSMutableArray array];
+    
+    for (NSInteger index = 0; index < numberNeeded; index++) {
+        UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 304, 0.5)]; // placeholder frame
+        separator.autoresizingMask = UIViewAutoresizingNone;
+        separator.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        separator.userInteractionEnabled = NO;
+        [separators addObject:separator];
+    }
+    
+    return separators;
 }
 
 @end
