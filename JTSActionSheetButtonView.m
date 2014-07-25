@@ -86,6 +86,7 @@
         
         self.button = [JTSActionSheetButton buttonWithType:UIButtonTypeCustom];
         self.button.frame = self.bounds;
+        self.button.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         UIFont *font = (isCancelItem) ? theme.boldButtonFont : theme.normalButtonFont;
         self.button.titleLabel.font = font;
         
