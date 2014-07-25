@@ -24,6 +24,8 @@ static inline JTSActionSheetItem * JTSActionSheetDefaultCancelItem(NSString *alt
 @interface JTSActionSheet : UIView
 
 @property (strong, nonatomic, readonly) JTSActionSheetTheme *theme;
+@property (copy, nonatomic, readonly) NSString *title;
+@property (strong, nonatomic, readonly) JTSActionSheetItem *cancelItem;
 
 - (instancetype)initWithTheme:(JTSActionSheetTheme *)theme
                         title:(NSString *)title

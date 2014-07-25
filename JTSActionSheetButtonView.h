@@ -10,12 +10,21 @@
 
 #import "JTSActionSheetItem.h"
 
+@class JTSActionSheetButtonView;
+
+@protocol JTSActionSheetButtonViewDelegate <NSObject>
+
+- (void)buttonViewWasSelected:(JTSActionSheetButtonView *)view forItem:(JTSActionSheetItem *)item;
+
+@end
+
 @interface JTSActionSheetButtonView : JTSActionSheetItemView
 
 @property (strong, nonatomic, readonly) JTSActionSheetItem *item;
 
 - (instancetype)initWithItem:(JTSActionSheetItem *)item
                 isCancelItem:(BOOL)isCancelItem
+                    delegate:(id <JTSActionSheetButtonViewDelegate>)delegate
                        theme:(JTSActionSheetTheme *)theme
                     position:(JTSActionSheetItemViewPosition)position;
 

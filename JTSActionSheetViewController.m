@@ -12,6 +12,9 @@
 #import "JTSActionSheet_Protected.h"
 
 @interface JTSActionSheetViewController ()
+<
+    JTSActionSheetDelegate
+>
 
 @property (strong, nonatomic) JTSActionSheet *sheet;
 @property (strong, nonatomic) UIView *backdropShadowView;
@@ -29,6 +32,7 @@
     if (self) {
         _sheet = sheet;
         _sheet.autoresizingMask = UIViewAutoresizingNone;
+        [_sheet setDelegate:self];
     }
     return self;
 }
@@ -104,7 +108,18 @@
 }
 
 - (void)dismissTapRecognized:(UITapGestureRecognizer *)sender {
-    [self.delegate actionSheetViewControllerDidDismiss:self];
+    JTSActionBlock actionBlock = self.sheet.cancelItem.actionBlock;
+    [self.delegate actionSheetViewControllerDidDismiss:self completion:^{
+        if (actionBlock) {
+            actionBlock();
+        }
+    }];
+}
+
+#pragma mark - JTSActionSheetDelegate
+
+- (void)actionSheetDidFinish:(JTSActionSheet *)sheet completion:(void (^)(void))completion {
+    [self.delegate actionSheetViewControllerDidDismiss:self completion:completion];
 }
 
 @end

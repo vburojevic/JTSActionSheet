@@ -17,11 +17,15 @@
 CGFloat const JTSActionSheetMargin = 8.0f;
 
 @interface JTSActionSheet ()
+<
+    JTSActionSheetButtonViewDelegate
+>
 
 @property (strong, nonatomic, readwrite) JTSActionSheetTheme *theme;
-@property (copy, nonatomic) NSString *title;
+@property (weak, nonatomic, readwrite) id <JTSActionSheetDelegate> delegate;
+@property (copy, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite) JTSActionSheetItem *cancelItem;
 @property (strong, nonatomic) NSArray *actionItems;
-@property (strong, nonatomic) JTSActionSheetItem *cancelItem;
 @property (strong, nonatomic) JTSActionSheetTitleView *titleView;
 @property (strong, nonatomic) NSArray *actionButtons;
 @property (strong, nonatomic) NSArray *actionButtonSeparators;
@@ -49,12 +53,19 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         
         if (title.length) {
             _title = title.copy;
-            _titleView = [[JTSActionSheetTitleView alloc] initWithTitle:title theme:theme position:JTSActionSheetItemViewPosition_Top];
+            _titleView = [[JTSActionSheetTitleView alloc]
+                          initWithTitle:title
+                          theme:theme
+                          position:JTSActionSheetItemViewPosition_Top];
+            
             [self addSubview:_titleView];
         }
         
         _actionItems = items.copy;
-        _actionButtons = [self actionButtonsForItems:items theme:theme titleWillBeUsed:(_title != nil)];
+        _actionButtons = [self actionButtonsForItems:items
+                                               theme:theme
+                                     titleWillBeUsed:(_title != nil)];
+        
         for (JTSActionSheetButtonView *button in _actionButtons) {
             [self addSubview:button];
         }
@@ -68,7 +79,13 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         }
         
         _cancelItem = cancelItem;
-        _cancelButton = [[JTSActionSheetButtonView alloc] initWithItem:cancelItem isCancelItem:YES theme:theme position:JTSActionSheetItemViewPosition_Single];
+        _cancelButton = [[JTSActionSheetButtonView alloc]
+                         initWithItem:cancelItem
+                         isCancelItem:YES
+                         delegate:self
+                         theme:theme
+                         position:JTSActionSheetItemViewPosition_Single];
+        
         [self addSubview:_cancelButton];
     }
     return self;
@@ -133,6 +150,8 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     }
 }
 
+#pragma mark - Protected
+
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
     
     CGFloat totalHeight = 0;
@@ -166,6 +185,10 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     return totalHeight;
 }
 
+- (void)setDelegate:(id <JTSActionSheetDelegate>)delegate {
+    _delegate = delegate;
+}
+
 #pragma mark - Private
 
 - (NSArray *)actionButtonsForItems:(NSArray *)items theme:(JTSActionSheetTheme *)theme titleWillBeUsed:(BOOL)titleWillBeUsed {
@@ -179,7 +202,12 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         NSInteger adjustedIndex = (titleWillBeUsed) ? index + 1 : index;
         JTSActionSheetItemViewPosition position = [self positionForIndex:adjustedIndex totalCount:ajdustedButtonCount];
         JTSActionSheetItem *item = items[index];
-        JTSActionSheetButtonView *newButton = [[JTSActionSheetButtonView alloc] initWithItem:item isCancelItem:NO theme:theme position:position];
+        JTSActionSheetButtonView *newButton = [[JTSActionSheetButtonView alloc]
+                                               initWithItem:item
+                                               isCancelItem:NO
+                                               delegate:self
+                                               theme:theme
+                                               position:position];
         [buttons addObject:newButton];
     }
     
@@ -219,6 +247,17 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     }
     
     return separators;
+}
+
+#pragma mark - Button View Delegate
+
+- (void)buttonViewWasSelected:(JTSActionSheetButtonView *)view forItem:(JTSActionSheetItem *)item {
+    [self.delegate actionSheetDidFinish:self completion:^{
+        if (item.actionBlock) {
+            item.actionBlock();
+        }
+
+    }];
 }
 
 @end

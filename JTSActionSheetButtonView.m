@@ -59,6 +59,7 @@
 
 @interface JTSActionSheetButtonView ()
 
+@property (weak, nonatomic) id <JTSActionSheetButtonViewDelegate> delegate;
 @property (assign, nonatomic) BOOL isCancelItem;
 @property (strong, nonatomic, readwrite) JTSActionSheetItem *item;
 @property (strong, nonatomic) JTSActionSheetButton *button;
@@ -71,12 +72,14 @@
 
 - (instancetype)initWithItem:(JTSActionSheetItem *)item
                 isCancelItem:(BOOL)isCancelItem
+                    delegate:(id <JTSActionSheetButtonViewDelegate>)delegate
                        theme:(JTSActionSheetTheme *)theme
                     position:(JTSActionSheetItemViewPosition)position {
     
     self = [super initWithTheme:theme position:position];
     if (self) {
         
+        _delegate = delegate;
         _item = item;
         _isCancelItem = isCancelItem;
         
@@ -94,6 +97,8 @@
         UIImage *highlightedImage = [JTSActionSheetImageUtility imageWithColor:[UIColor colorWithWhite:0.0 alpha:0.09]];
         [self.button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
         
+        [self.button addTarget:self action:@selector(buttonTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        
         [self.button setTitle:item.title forState:UIControlStateNormal];
         
         [self addSubview:self.button];
@@ -102,9 +107,11 @@
     return self;
 }
 
-#pragma mark - Private
+#pragma mark - Button Actions
 
-
+- (void)buttonTouchedUpInside:(id)sender {
+    [self.delegate buttonViewWasSelected:self forItem:self.item];
+}
 
 @end
 

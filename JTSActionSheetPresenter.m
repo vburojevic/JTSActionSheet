@@ -47,7 +47,8 @@
 
 #pragma mark - Private
 
-- (void)actionSheetViewControllerDidDismiss:(JTSActionSheetViewController *)viewController {
+- (void)actionSheetViewControllerDidDismiss:(JTSActionSheetViewController *)viewController
+                                 completion:(void (^)(void))completion {
 
     UIWindow *window = viewController.view.window;
     UIViewController *rootVC = window.rootViewController;
@@ -55,6 +56,9 @@
     [self.currentViewController playDismissalAnimation:YES tintableUnderlyingView:rootVC.view completion:^{
         [self.currentViewController.view removeFromSuperview];
         self.currentViewController = nil;
+        if (completion) {
+            completion();
+        }
     }];
 }
 

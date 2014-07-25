@@ -12,7 +12,8 @@
 
 @protocol JTSActionSheetViewControllerDelegate <NSObject>
 
-- (void)actionSheetViewControllerDidDismiss:(JTSActionSheetViewController *)viewController;
+- (void)actionSheetViewControllerDidDismiss:(JTSActionSheetViewController *)viewController
+                                 completion:(void (^)(void))completion;
 
 @end
 
@@ -22,8 +23,11 @@
 
 - (instancetype)initWithActionSheet:(JTSActionSheet *)sheet;
 
-- (void)playPresentationAnimation:(BOOL)animated tintableUnderlyingView:(UIView *)view;
+- (void)playPresentationAnimation:(BOOL)animated
+           tintableUnderlyingView:(UIView *)view;
 
-- (void)playDismissalAnimation:(BOOL)animated tintableUnderlyingView:(UIView *)view completion:(void(^)(void))completion;
+- (void)playDismissalAnimation:(BOOL)animated
+        tintableUnderlyingView:(UIView *)view
+                    completion:(void(^)(void))completion;
 
 @end

@@ -8,8 +8,16 @@
 
 #import "JTSActionSheet.h"
 
+@protocol JTSActionSheetDelegate <NSObject>
+
+- (void)actionSheetDidFinish:(JTSActionSheet *)sheet completion:(void(^)(void))completion;
+
+@end
+
 @interface JTSActionSheet ()
 
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth;
+
+- (void)setDelegate:(id <JTSActionSheetDelegate>)delegate;
 
 @end
