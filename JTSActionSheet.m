@@ -9,9 +9,10 @@
 #import "JTSActionSheet.h"
 #import "JTSActionSheet_Protected.h"
 
-#import "JTSActionSheetButton.h"
+#import "JTSActionSheetButtonView.h"
 #import "JTSActionSheetTitleView.h"
 #import "JTSActionSheetPresenter.h"
+#import "JTSActionSheetSeparatorView.h"
 
 CGFloat const JTSActionSheetMargin = 8.0f;
 
@@ -24,7 +25,7 @@ CGFloat const JTSActionSheetMargin = 8.0f;
 @property (strong, nonatomic) JTSActionSheetTitleView *titleView;
 @property (strong, nonatomic) NSArray *actionButtons;
 @property (strong, nonatomic) NSArray *actionButtonSeparators;
-@property (strong, nonatomic) JTSActionSheetButton *cancelButton;
+@property (strong, nonatomic) JTSActionSheetButtonView *cancelButton;
 
 @end
 
@@ -54,20 +55,20 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         
         _actionItems = items.copy;
         _actionButtons = [self actionButtonsForItems:items theme:theme titleWillBeUsed:(_title != nil)];
-        for (JTSActionSheetButton *button in _actionButtons) {
+        for (JTSActionSheetButtonView *button in _actionButtons) {
             [self addSubview:button];
         }
         
         NSInteger numberOfSeparatorsRequired = _actionButtons.count - 1;
         if (numberOfSeparatorsRequired) {
             _actionButtonSeparators = [self actionSeparators:numberOfSeparatorsRequired theme:theme];
-            for (UIView *separator in _actionButtonSeparators) {
+            for (JTSActionSheetSeparatorView *separator in _actionButtonSeparators) {
                 [self addSubview:separator];
             }
         }
         
         _cancelItem = cancelItem;
-        _cancelButton = [[JTSActionSheetButton alloc] initWithItem:cancelItem isCancelItem:YES theme:theme position:JTSActionSheetItemViewPosition_Single];
+        _cancelButton = [[JTSActionSheetButtonView alloc] initWithItem:cancelItem isCancelItem:YES theme:theme position:JTSActionSheetItemViewPosition_Single];
         [self addSubview:_cancelButton];
     }
     return self;
@@ -83,7 +84,12 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     
     [super layoutSubviews];
     CGFloat cursor = self.bounds.size.height;
-    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, self.bounds.size.width - JTSActionSheetMargin * 2.0f, JTSActionSheetButtonHeight);
+    CGFloat availableWidth = self.bounds.size.width;
+    CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:availableWidth];
+    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin,
+                                     0,
+                                     self.bounds.size.width - JTSActionSheetMargin * 2.0f,
+                                     buttonHeight);
     
     // CANCEL BUTTON
     CGRect cancelFrame = buttonBounds;
@@ -100,7 +106,7 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     // FRAME FOR EACH ACTION BUTTON & SEPARATOR
     for (NSInteger index = 0; index < self.actionButtons.count; index++) {
         
-        JTSActionSheetButton *button = self.actionButtons[index];
+        JTSActionSheetButtonView *button = self.actionButtons[index];
         
         CGRect buttonFrame = buttonBounds;
         buttonFrame.origin.y = cursor - buttonBounds.size.height;
@@ -119,9 +125,8 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     if (self.titleView) {
         cursor -= JTSActionSheetMargin;
         CGRect titleViewRect = CGRectZero;
-        CGFloat titleViewWidth = buttonBounds.size.width;
-        titleViewRect.size.width = titleViewWidth;
-        titleViewRect.size.height = [self.titleView intrinsicHeightGivenAvailableWidth:titleViewWidth];
+        titleViewRect.size.width = availableWidth;
+        titleViewRect.size.height = [self.titleView intrinsicHeightGivenAvailableWidth:availableWidth];
         titleViewRect.origin.x = buttonBounds.origin.x;
         titleViewRect.origin.y = cursor - titleViewRect.size.height;
         self.titleView.frame = titleViewRect;
@@ -132,7 +137,11 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     
     CGFloat totalHeight = 0;
     
-    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, self.bounds.size.width - JTSActionSheetMargin/2.0f, JTSActionSheetButtonHeight);
+    CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:availableWidth];
+    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin,
+                                     0,
+                                     self.bounds.size.width - JTSActionSheetMargin * 2.0f,
+                                     buttonHeight);
     CGFloat gap = 1.0f / [UIScreen mainScreen].scale;
 
     // bottom gap plus cancel button
@@ -170,7 +179,7 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         NSInteger adjustedIndex = (titleWillBeUsed) ? index + 1 : index;
         JTSActionSheetItemViewPosition position = [self positionForIndex:adjustedIndex totalCount:ajdustedButtonCount];
         JTSActionSheetItem *item = items[index];
-        JTSActionSheetButton *newButton = [[JTSActionSheetButton alloc] initWithItem:item isCancelItem:NO theme:theme position:position];
+        JTSActionSheetButtonView *newButton = [[JTSActionSheetButtonView alloc] initWithItem:item isCancelItem:NO theme:theme position:position];
         [buttons addObject:newButton];
     }
     
@@ -204,10 +213,8 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     NSMutableArray *separators = [NSMutableArray array];
     
     for (NSInteger index = 0; index < numberNeeded; index++) {
-        UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 304, 0.5)]; // placeholder frame
+        UIView *separator = [[JTSActionSheetSeparatorView alloc] initWithTheme:theme];
         separator.autoresizingMask = UIViewAutoresizingNone;
-        separator.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-        separator.userInteractionEnabled = NO;
         [separators addObject:separator];
     }
     
@@ -215,15 +222,6 @@ CGFloat const JTSActionSheetMargin = 8.0f;
 }
 
 @end
-
-
-
-
-
-
-
-
-
 
 
 

@@ -8,32 +8,33 @@
 
 #import "JTSActionSheetTheme.h"
 
-#define JTSDefaultActionColor [UIColor colorWithRed:0.09 green:0.50 blue:0.99 alpha:1.0]
-#define JTSDefaultDesctructionColor [UIColor colorWithRed:0.99 green:0.24 blue:0.22 alpha:1.0]
-#define JTSDefaultTitleColor [UIColor colorWithWhite:0.25 alpha:1.0]
+#define JTSActionSheetDefaultActionColor [UIColor colorWithRed:0.09 green:0.50 blue:0.99 alpha:1.0]
+#define JTSActionSheetDefaultDestructionColor [UIColor colorWithRed:0.99 green:0.24 blue:0.22 alpha:1.0]
+#define JTSActionSheetDefaultTitleColor [UIColor colorWithWhite:0.25 alpha:1.0]
+#define JTSActionSheetDefaultBackgroundColor [UIColor colorWithWhite:0.99 alpha:0.96]
+#define JTSActionSheetDefaultBackdropShadowColor [UIColor colorWithWhite:0.0 alpha:0.4]
+#define JTSActionSheetDefaultSeparatorColor [UIColor colorWithWhite:0.0 alpha:0.6]
 
 @implementation JTSActionSheetTheme
 
-/*
- UIKIT_EXTERN NSString *const UIFontTextStyleHeadline NS_AVAILABLE_IOS(7_0);
- UIKIT_EXTERN NSString *const UIFontTextStyleBody NS_AVAILABLE_IOS(7_0);
- UIKIT_EXTERN NSString *const UIFontTextStyleSubheadline NS_AVAILABLE_IOS(7_0);
- UIKIT_EXTERN NSString *const UIFontTextStyleFootnote NS_AVAILABLE_IOS(7_0);
- UIKIT_EXTERN NSString *const UIFontTextStyleCaption1 NS_AVAILABLE_IOS(7_0);
- UIKIT_EXTERN NSString *const UIFontTextStyleCaption2 NS_AVAILABLE_IOS(7_0);
- */
-
 + (instancetype)defaultTheme {
+    
     JTSActionSheetTheme *theme = [[JTSActionSheetTheme alloc] init];
-    theme.style = JTSActionSheetStyle_SolidColor;
+    
+    theme.backgroundStyle = JTSActionSheetStyle_SolidColor;
+    theme.separatorStyle = JTSActionSheetStyle_SolidColor;
+    
     theme.titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
     theme.normalButtonFont = [UIFont systemFontOfSize:19];
     theme.boldButtonFont = [UIFont boldSystemFontOfSize:19];
-    theme.normalButtonColor = JTSDefaultActionColor;
-    theme.destructiveButtonColor = JTSDefaultDesctructionColor;
-    theme.titleColor = JTSDefaultTitleColor;
-    theme.backdropShadowColor = [UIColor colorWithWhite:0 alpha:0.25];
-    theme.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.95];
+    
+    theme.normalButtonColor = JTSActionSheetDefaultActionColor;
+    theme.destructiveButtonColor = JTSActionSheetDefaultDestructionColor;
+    theme.titleColor = JTSActionSheetDefaultTitleColor;
+    theme.backdropShadowColor = JTSActionSheetDefaultBackdropShadowColor;
+    theme.backgroundColor = JTSActionSheetDefaultBackgroundColor;
+    theme.separatorColor = JTSActionSheetDefaultSeparatorColor;
+    
     return theme;
 }
 

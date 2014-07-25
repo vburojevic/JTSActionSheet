@@ -32,8 +32,10 @@
     return self;
 }
 
+#pragma mark - JTSActionSheetItemView
+
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
-    return 0;
+    return 56.0f;
 }
 
 @end

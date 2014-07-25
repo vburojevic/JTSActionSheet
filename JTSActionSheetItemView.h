@@ -24,4 +24,11 @@ typedef NS_ENUM(NSInteger, JTSActionSheetItemViewPosition) {
 
 - (instancetype)initWithTheme:(JTSActionSheetTheme *)theme position:(JTSActionSheetItemViewPosition)position;
 
+/**
+ Subclasses should override this to return an appropriate height where applicable.
+ 
+ The super implementation returns 44 points.
+ */
+- (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth;
+
 @end

@@ -50,7 +50,7 @@
     if (self.sheetIsVisible == YES) {
         self.sheetIsVisible = NO;
         UIViewAnimationOptions options = 6 << 16; // unpublished default curve
-        CGFloat duration = (animated) ? 0.3 : 0;
+        CGFloat duration = (animated) ? 0.25 : 0;
         [UIView animateWithDuration:duration delay:0 options:options animations:^{
             view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
             self.sheet.transform = CGAffineTransformMakeTranslation(0, self.sheet.bounds.size.height);

@@ -16,7 +16,8 @@ typedef NS_ENUM(NSInteger, JTSActionSheetStyle) {
 
 @interface JTSActionSheetTheme : NSObject
 
-@property (assign, nonatomic) JTSActionSheetStyle style;
+@property (assign, nonatomic) JTSActionSheetStyle backgroundStyle;
+@property (assign, nonatomic) JTSActionSheetStyle separatorStyle;
 
 @property (strong, nonatomic) UIFont *titleFont;
 @property (strong, nonatomic) UIFont *normalButtonFont;
@@ -30,7 +31,8 @@ typedef NS_ENUM(NSInteger, JTSActionSheetStyle) {
 @property (assign, nonatomic) CGFloat normalButtonBaselineOffset;
 @property (assign, nonatomic) CGFloat boldButtonBaselineOffset;
 
-@property (strong, nonatomic) UIColor *backgroundColor; // Only used with JTSActionSheetStyle_SolidColor
+@property (strong, nonatomic) UIColor *backgroundColor; // Only with JTSActionSheetStyle_SolidColor backgrounds
+@property (strong, nonatomic) UIColor *separatorColor; // Only with JTSActionSheetStyle_SolidColor separators
 @property (strong, nonatomic) UIColor *backdropShadowColor;
 
 + (instancetype)defaultTheme;

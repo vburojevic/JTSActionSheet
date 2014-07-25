@@ -11,6 +11,7 @@
 #import "JTSActionSheetTheme.h"
 
 CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
+CGFloat const JTSActionSheetItemDefaultHeight = 44.0;
 
 @interface JTSActionSheetItemView ()
 
@@ -34,10 +35,10 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
         _theme = theme;
         _position = position;
                 
-        if (theme.style == JTSActionSheetStyle_WhiteBlurred) {
+        if (theme.backgroundStyle == JTSActionSheetStyle_WhiteBlurred) {
             NSAssert(NO, @"Blurred themes not yet supported");
         }
-        else if (theme.style == JTSActionSheetStyle_DarkBlurred) {
+        else if (theme.backgroundStyle == JTSActionSheetStyle_DarkBlurred) {
             NSAssert(NO, @"Blurred themes not yet supported");
         }
         else {
@@ -45,6 +46,10 @@ CGFloat const JTSActionSheetItemViewCornerRadius = 4.0f;
         }
     }
     return self;
+}
+
+- (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
+    return JTSActionSheetItemDefaultHeight;
 }
 
 #pragma mark - UIView

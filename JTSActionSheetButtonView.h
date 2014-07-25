@@ -10,9 +10,7 @@
 
 #import "JTSActionSheetItem.h"
 
-extern CGFloat const JTSActionSheetButtonHeight;
-
-@interface JTSActionSheetButton : JTSActionSheetItemView
+@interface JTSActionSheetButtonView : JTSActionSheetItemView
 
 @property (strong, nonatomic, readonly) JTSActionSheetItem *item;
 
