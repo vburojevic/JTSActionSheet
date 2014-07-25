@@ -103,6 +103,9 @@
         
         [self.button setTitle:item.title forState:UIControlStateNormal];
         
+        CGFloat baselineOffset = (isCancelItem) ? theme.boldButtonBaselineOffset : theme.normalButtonBaselineOffset;
+        self.button.contentEdgeInsets = UIEdgeInsetsMake(0 - baselineOffset, JTSActionSheetMargin * 2.0, 0, JTSActionSheetMargin * 2.0);
+        
         [self addSubview:self.button];
 
     }

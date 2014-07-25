@@ -41,7 +41,8 @@
         paragraphStyle.alignment = NSTextAlignmentCenter;
         NSDictionary *attributes = @{NSFontAttributeName : theme.titleFont,
                                      NSForegroundColorAttributeName : theme.titleColor,
-                                     NSParagraphStyleAttributeName : paragraphStyle
+                                     NSParagraphStyleAttributeName : paragraphStyle,
+                                     NSBaselineOffsetAttributeName : @(theme.titleBaselineOffset)
                                      };
         self.attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributes];
         self.titleLabel.attributedText = self.attributedTitle;
