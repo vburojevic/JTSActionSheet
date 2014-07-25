@@ -3,6 +3,10 @@ JTSActionSheet
 
 *Replacement for UIActionSheet on iOS 7, with customizable fonts and colors, and block-based actions.*
 
+## Screenshots
+
+<img src="https://raw.githubusercontent.com/jaredsinclair/JTSActionSheet/master/jtsactionsheet.png">
+
 ## Why Use This?
 
 As of this writing, I am working on a project that called for lots of action sheets, with the following requirements:
