@@ -3,15 +3,22 @@ JTSActionSheet
 
 *Replacement for UIActionSheet on iOS 7, with customizable fonts and colors, and block-based actions.*
 
+## Screenshots
+
+Both of these screenshots were made with JTSActionSheet. I've taken great pains to mimic the native look of UIActionSheet on iOS 7 where possible.
+
+<img src="https://raw.githubusercontent.com/jaredsinclair/JTSActionSheet/master/jtsactionsheet.png">
+
 ## Why Use This?
 
-As of this writing, I am working on a project that called for lots of action sheets, with the following requirements:
+JTSActionSheet will help you if your project has any of these requirements:
 
-- Needed to specify custom fonts for buttons and titles.
-- Needed to choose the colors not just for the button titles, but also for the background colors, including the backdrop shadow overlay.
-- Needed a block-based API for ease of development.
+- You need to specify custom fonts for buttons and titles.
+- You would like to choose custom colors for everything: button titles, background colors, etc.
+- You want to use a simple block-based API for button actions.
+- You need to easily drop back to a native appearance for some edge cases.
 
-Surprisingly, there weren't any ready-made solutions available in the wild. So I made one.
+Surprisingly, there aren't any other ready-made solutions available in the wild. So I made one.
 
 ## When *Not* To Use This
 
