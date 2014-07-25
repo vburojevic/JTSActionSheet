@@ -41,6 +41,12 @@ Here is some sample code showing it all together:
 
 ```objc
 
+// Import this
+
+#import "JTSActionSheet.h"
+
+[...]
+
 // Create a theme
 
 JTSActionSheetTheme *theme = [JTSActionSheetTheme defaultTheme];
