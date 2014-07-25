@@ -51,18 +51,15 @@
         
         if (title.length) {
             _title = title.copy;
-            _titleView = [[JTSActionSheetTitleView alloc]
-                          initWithTitle:title
-                          theme:theme
-                          position:JTSActionSheetItemViewPosition_Top];
+            _titleView = [[JTSActionSheetTitleView alloc] initWithTitle:title
+                                                                  theme:theme
+                                                               position:JTSActionSheetItemViewPosition_Top];
             
             [self addSubview:_titleView];
         }
         
-        _actionItems = items.copy;
-        _actionButtons = [self actionButtonsForItems:items
-                                               theme:theme
-                                     titleWillBeUsed:(_title != nil)];
+        _actionItems = items.reverseObjectEnumerator.allObjects;
+        _actionButtons = [self actionButtonsForItems:_actionItems theme:theme titleWillBeUsed:(_title != nil)];
         
         for (JTSActionSheetButtonView *button in _actionButtons) {
             [self addSubview:button];
