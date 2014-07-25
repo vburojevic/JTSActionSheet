@@ -46,6 +46,7 @@
             view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
             self.sheet.transform = CGAffineTransformIdentity;
             self.backdropShadowView.alpha = 1;
+            [self.sheet addMotionEffects];
         } completion:nil];
     }
 }
@@ -59,6 +60,7 @@
             view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
             self.sheet.transform = CGAffineTransformMakeTranslation(0, self.sheet.bounds.size.height);
             self.backdropShadowView.alpha = 0;
+            [self.sheet removeMotionEffects];
         } completion:^(BOOL finished) {
             if (completion) {
                 completion();

@@ -20,4 +20,8 @@
 
 - (void)setDelegate:(id <JTSActionSheetDelegate>)delegate;
 
+- (void)addMotionEffects;
+
+- (void)removeMotionEffects;
+
 @end

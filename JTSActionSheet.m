@@ -162,6 +162,33 @@
     }
 }
 
+#pragma mark - Motion Effects
+
+- (void)addMotionEffects {
+    if (self.motionEffects.count == 0) {
+        UIInterpolatingMotionEffect *verticalEffect;
+        verticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        verticalEffect.minimumRelativeValue = @(-JTSActionSheetMargin);
+        verticalEffect.maximumRelativeValue = @(JTSActionSheetMargin);
+        
+        UIInterpolatingMotionEffect *horizontalEffect;
+        horizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        horizontalEffect.minimumRelativeValue = @(-JTSActionSheetMargin);
+        horizontalEffect.maximumRelativeValue = @(JTSActionSheetMargin);
+        
+        UIMotionEffectGroup *effectGroup = [[UIMotionEffectGroup alloc] init];
+        [effectGroup setMotionEffects:@[horizontalEffect, verticalEffect]];
+        [self addMotionEffect:effectGroup];
+    }
+}
+
+- (void)removeMotionEffects {
+    for (UIMotionEffect *effect in self.motionEffects) {
+        [self removeMotionEffect:effect];
+    }
+}
+
+
 #pragma mark - Protected
 
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
