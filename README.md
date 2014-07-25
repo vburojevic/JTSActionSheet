@@ -51,6 +51,7 @@ JTSActionSheetItem *deleteAll = [JTSActionSheetItem itemWithTitle:@"Delete All" 
 
 JTSActionSheetItem *cancel = [JTSActionSheetItem itemWithTitle:@"Cancel" action:^{
     // respond to cancellation
+    // Action blocks can be nil if you want.
 } isDestructive:NO];
 
 
