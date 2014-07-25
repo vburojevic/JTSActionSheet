@@ -10,7 +10,7 @@
 
 #define JTSActionSheetDefaultActionColor [UIColor colorWithRed:0.09 green:0.50 blue:0.99 alpha:1.0]
 #define JTSActionSheetDefaultDestructionColor [UIColor colorWithRed:0.99 green:0.24 blue:0.22 alpha:1.0]
-#define JTSActionSheetDefaultTitleColor [UIColor colorWithWhite:0.25 alpha:1.0]
+#define JTSActionSheetDefaultTitleColor [UIColor colorWithWhite:0.5 alpha:1.0]
 #define JTSActionSheetDefaultBackgroundColor [UIColor colorWithWhite:0.99 alpha:0.96]
 #define JTSActionSheetDefaultBackdropShadowColor [UIColor colorWithWhite:0.0 alpha:0.4]
 #define JTSActionSheetDefaultSeparatorColor [UIColor colorWithWhite:0.0 alpha:0.6]
@@ -24,7 +24,7 @@
     theme.backgroundStyle = JTSActionSheetStyle_SolidColor;
     theme.separatorStyle = JTSActionSheetStyle_SolidColor;
     
-    theme.titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    theme.titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     theme.normalButtonFont = [UIFont systemFontOfSize:19];
     theme.boldButtonFont = [UIFont boldSystemFontOfSize:19];
     

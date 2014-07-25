@@ -14,8 +14,6 @@
 #import "JTSActionSheetPresenter.h"
 #import "JTSActionSheetSeparatorView.h"
 
-CGFloat const JTSActionSheetMargin = 8.0f;
-
 @interface JTSActionSheet ()
 <
     JTSActionSheetButtonViewDelegate
@@ -71,6 +69,9 @@ CGFloat const JTSActionSheetMargin = 8.0f;
         }
         
         NSInteger numberOfSeparatorsRequired = _actionButtons.count - 1;
+        if (title) {
+            numberOfSeparatorsRequired += 1;
+        }
         if (numberOfSeparatorsRequired) {
             _actionButtonSeparators = [self actionSeparators:numberOfSeparatorsRequired theme:theme];
             for (JTSActionSheetSeparatorView *separator in _actionButtonSeparators) {
@@ -102,11 +103,9 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     [super layoutSubviews];
     CGFloat cursor = self.bounds.size.height;
     CGFloat availableWidth = self.bounds.size.width;
-    CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:availableWidth];
-    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin,
-                                     0,
-                                     self.bounds.size.width - JTSActionSheetMargin * 2.0f,
-                                     buttonHeight);
+    CGFloat buttonWidth = availableWidth - JTSActionSheetMargin * 2.0;
+    CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:buttonWidth];
+    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, buttonWidth, buttonHeight);
     
     // CANCEL BUTTON
     CGRect cancelFrame = buttonBounds;
@@ -120,30 +119,43 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     // GAP BETWEEN EACH ACTION BUTTON
     CGFloat gap = 1.0f / [UIScreen mainScreen].scale;
     
-    // FRAME FOR EACH ACTION BUTTON & SEPARATOR
+    CGFloat topOfBottomMostButton = cursor - buttonHeight;
+    
+    // FRAME FOR EACH ACTION BUTTON
     for (NSInteger index = 0; index < self.actionButtons.count; index++) {
+        
+        cursor -= buttonHeight;
         
         JTSActionSheetButtonView *button = self.actionButtons[index];
         
         CGRect buttonFrame = buttonBounds;
-        buttonFrame.origin.y = cursor - buttonBounds.size.height;
+        buttonFrame.origin.y = cursor;
         button.frame = buttonFrame;
-        cursor -= buttonFrame.size.height;
         
         if (self.actionButtons.lastObject != button) {
             cursor -= gap;
-            UIView *separator = self.actionButtonSeparators[index];
-            CGRect separatorFrame = CGRectMake(buttonFrame.origin.x, cursor, buttonFrame.size.width, gap);
-            separator.frame = separatorFrame;
+        }
+    }
+    
+    // FRAME FOR EACH SEPARATOR
+    if (self.actionButtonSeparators.count) {
+        cursor = topOfBottomMostButton;
+        for (NSInteger index = 0; index < self.actionButtonSeparators.count; index++) {
+            cursor -= gap;
+            JTSActionSheetSeparatorView *view = self.actionButtonSeparators[index];
+            CGRect separatorFrame = CGRectMake(JTSActionSheetMargin, cursor, availableWidth - JTSActionSheetMargin * 2.0, gap);
+            view.frame = separatorFrame;
+            if (index != self.actionButtonSeparators.count-1) {
+                cursor -= buttonHeight;
+            }
         }
     }
     
     // TITLE VIEW
     if (self.titleView) {
-        cursor -= JTSActionSheetMargin;
         CGRect titleViewRect = CGRectZero;
-        titleViewRect.size.width = availableWidth;
-        titleViewRect.size.height = [self.titleView intrinsicHeightGivenAvailableWidth:availableWidth];
+        titleViewRect.size.width = buttonWidth;
+        titleViewRect.size.height = [self.titleView intrinsicHeightGivenAvailableWidth:buttonWidth];
         titleViewRect.origin.x = buttonBounds.origin.x;
         titleViewRect.origin.y = cursor - titleViewRect.size.height;
         self.titleView.frame = titleViewRect;
@@ -156,11 +168,10 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     
     CGFloat totalHeight = 0;
     
-    CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:availableWidth];
-    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin,
-                                     0,
-                                     self.bounds.size.width - JTSActionSheetMargin * 2.0f,
-                                     buttonHeight);
+    CGFloat buttonWidth = availableWidth - JTSActionSheetMargin * 2.0;
+    CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:buttonWidth];
+    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, buttonWidth, buttonHeight);
+    
     CGFloat gap = 1.0f / [UIScreen mainScreen].scale;
 
     // bottom gap plus cancel button
@@ -174,11 +185,10 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     
     // title view
     if (self.titleView) {
-        totalHeight += JTSActionSheetMargin;
+        totalHeight += gap;
         CGRect titleViewRect = CGRectZero;
-        CGFloat titleViewWidth = buttonBounds.size.width;
-        titleViewRect.size.width = titleViewWidth;
-        titleViewRect.size.height = [self.titleView intrinsicHeightGivenAvailableWidth:titleViewWidth];
+        titleViewRect.size.width = buttonWidth;
+        titleViewRect.size.height = [self.titleView intrinsicHeightGivenAvailableWidth:buttonWidth];
         totalHeight += titleViewRect.size.height;
     }
     
@@ -196,11 +206,10 @@ CGFloat const JTSActionSheetMargin = 8.0f;
     NSAssert(items.count, @"JTSActionSheet requires at least one action item.");
     
     NSMutableArray *buttons = [NSMutableArray array];
-    NSInteger ajdustedButtonCount = items.count;
+    NSInteger ajdustedButtonCountForCornerLogic = (titleWillBeUsed) ? items.count + 1 : items.count;
     
     for (NSInteger index = 0; index < items.count; index++) {
-        NSInteger adjustedIndex = (titleWillBeUsed) ? index + 1 : index;
-        JTSActionSheetItemViewPosition position = [self positionForIndex:adjustedIndex totalCount:ajdustedButtonCount];
+        JTSActionSheetItemViewPosition position = [self positionForIndex:index totalCount:ajdustedButtonCountForCornerLogic];
         JTSActionSheetItem *item = items[index];
         JTSActionSheetButtonView *newButton = [[JTSActionSheetButtonView alloc]
                                                initWithItem:item
