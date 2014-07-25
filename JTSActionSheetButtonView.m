@@ -10,6 +10,7 @@
 
 #import "JTSActionSheetTheme.h"
 #import "JTSActionSheetImageUtility.h"
+#import "JTSActionSheetConveniences.h"
 
 // ---------------------------------------------------------------------------------
 // A CUSTOM BUTTON
@@ -94,7 +95,7 @@
             [self.button setTitleColor:theme.normalButtonColor forState:UIControlStateNormal];
         }
         
-        UIImage *highlightedImage = [JTSActionSheetImageUtility imageWithColor:[UIColor colorWithWhite:0.0 alpha:0.09]];
+        UIImage *highlightedImage = [JTSActionSheetImageUtility imageWithColor:theme.buttonHighlightOverlayColor];
         [self.button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
         
         [self.button addTarget:self action:@selector(buttonTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
@@ -105,6 +106,13 @@
 
     }
     return self;
+}
+
+#pragma mark - JTSActionSheetItemView
+
+- (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
+    CGFloat actualHeight = roundf(self.theme.normalButtonFont.capHeight + JTSActionSheetMargin * 4.0);
+    return MAX(actualHeight, 44.0);
 }
 
 #pragma mark - Button Actions

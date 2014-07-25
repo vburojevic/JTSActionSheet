@@ -14,6 +14,7 @@
 #define JTSActionSheetDefaultBackgroundColor [UIColor colorWithWhite:0.99 alpha:0.96]
 #define JTSActionSheetDefaultBackdropShadowColor [UIColor colorWithWhite:0.0 alpha:0.4]
 #define JTSActionSheetDefaultSeparatorColor [UIColor colorWithWhite:0.0 alpha:0.6]
+#define JTSActionSheetDefaultButtonHighlightOverlayColor [UIColor colorWithWhite:0.0 alpha:0.09]
 
 @implementation JTSActionSheetTheme
 
@@ -34,6 +35,7 @@
     theme.backdropShadowColor = JTSActionSheetDefaultBackdropShadowColor;
     theme.backgroundColor = JTSActionSheetDefaultBackgroundColor;
     theme.separatorColor = JTSActionSheetDefaultSeparatorColor;
+    theme.buttonHighlightOverlayColor = JTSActionSheetDefaultButtonHighlightOverlayColor;
     
     return theme;
 }

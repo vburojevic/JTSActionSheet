@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, JTSActionSheetStyle) {
 
 @property (strong, nonatomic) UIColor *backgroundColor; // Only with JTSActionSheetStyle_SolidColor backgrounds
 @property (strong, nonatomic) UIColor *separatorColor; // Only with JTSActionSheetStyle_SolidColor separators
+@property (strong, nonatomic) UIColor *buttonHighlightOverlayColor;
 @property (strong, nonatomic) UIColor *backdropShadowColor;
 
 + (instancetype)defaultTheme;
