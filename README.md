@@ -24,7 +24,7 @@ Surprisingly, there aren't any other ready-made solutions available in the wild.
 
 Don't use this if you need:
 
-- iOS 8 support (though it's coming soon). I don't plan on making this work like UIAlertController, either.
+- iOS 8 features like those provided by UIAlertController.
 - iPad support. It might work on the iPad, but I highly doubt it will look good.
 - Scrollable action sheets (you know, how the native UIActionSheet becomes a scrollable table view when there are too many items to fit in a given area).
 - Landscape support (unless you don't mind a wide horizontal stretch).
