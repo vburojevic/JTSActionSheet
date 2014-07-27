@@ -185,7 +185,6 @@
     }
 }
 
-
 #pragma mark - Protected
 
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {

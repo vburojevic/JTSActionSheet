@@ -13,13 +13,15 @@
 
 @interface JTSActionSheetViewController ()
 <
-    JTSActionSheetDelegate
+    JTSActionSheetDelegate,
+    UIGestureRecognizerDelegate
 >
 
 @property (strong, nonatomic) JTSActionSheet *sheet;
 @property (strong, nonatomic) UIView *backdropShadowView;
 @property (assign, nonatomic) BOOL sheetIsVisible;
 @property (strong, nonatomic) UITapGestureRecognizer *dismissTapRecognizer;
+@property (strong, nonatomic) UISwipeGestureRecognizer *dismissSwipeRecognizer;
 
 @end
 
@@ -40,7 +42,7 @@
 - (void)playPresentationAnimation:(BOOL)animated tintableUnderlyingView:(UIView *)view {
     if (self.sheetIsVisible == NO) {
         self.sheetIsVisible = YES;
-        UIViewAnimationOptions options = 7 << 16; // unpublished default curve
+        UIViewAnimationOptions options = UIViewAnimationOptionAllowUserInteraction | 7 << 16; // unpublished default curve
         CGFloat duration = (animated) ? 0.3 : 0;
         [UIView animateWithDuration:duration delay:0 options:options animations:^{
             view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
@@ -78,7 +80,13 @@
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     self.dismissTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissTapRecognized:)];
+    self.dismissTapRecognizer.delegate = self;
     [self.view addGestureRecognizer:self.dismissTapRecognizer];
+    
+    self.dismissSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSwipeRecognized:)];
+    self.dismissSwipeRecognizer.delegate = self;
+    self.dismissSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:self.dismissSwipeRecognizer];
     
     self.backdropShadowView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.backdropShadowView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -95,7 +103,7 @@
     [self repositionSheet];
 }
 
-#pragma mark - Private
+#pragma mark - Layout
 
 - (void)repositionSheet {
     CGFloat actionSheetWidth = self.view.bounds.size.width;
@@ -109,6 +117,8 @@
     }
 }
 
+#pragma mark - Dismissal Recognizers
+
 - (void)dismissTapRecognized:(UITapGestureRecognizer *)sender {
     JTSActionBlock actionBlock = self.sheet.cancelItem.actionBlock;
     [self.delegate actionSheetViewControllerDidDismiss:self completion:^{
@@ -116,6 +126,21 @@
             actionBlock();
         }
     }];
+}
+
+- (void)dismissSwipeRecognized:(UISwipeGestureRecognizer *)sender {
+    JTSActionBlock actionBlock = self.sheet.cancelItem.actionBlock;
+    [self.delegate actionSheetViewControllerDidDismiss:self completion:^{
+        if (actionBlock) {
+            actionBlock();
+        }
+    }];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return (CGRectContainsPoint(self.sheet.frame, [touch locationInView:self.view]) == NO);
 }
 
 #pragma mark - JTSActionSheetDelegate
