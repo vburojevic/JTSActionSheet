@@ -29,12 +29,17 @@
     
     self = [super initWithTheme:theme position:position];
     if (self) {
+        
         _title = title.copy;
+        
+        self.accessibilityTraits = UIAccessibilityTraitStaticText | UIAccessibilityTraitHeader;
         
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, JTSActionSheetMargin * 2.0, JTSActionSheetMargin * 2.0)];
         self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         self.titleLabel.numberOfLines = 24;
+        self.titleLabel.isAccessibilityElement = NO;
+        self.isAccessibilityElement = YES;
         
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -50,6 +55,12 @@
         [self addSubview:self.titleLabel];
     }
     return self;
+}
+
+#pragma mark - Accessibility
+
+- (NSString *)accessibilityLabel {
+    return self.title;
 }
 
 #pragma mark - JTSActionSheetItemView
