@@ -92,6 +92,7 @@ CGFloat const JTSActionSheetItemDefaultHeight = 44.0;
             corners = UIRectCornerTopLeft | UIRectCornerTopRight;
             break;
         case JTSActionSheetItemViewPosition_Middle:
+            corners = 0;
             NSLog(@"[%@ cornerClipForPosition:] - Warning! Do not round corners for the middle position.", NSStringFromClass([self class]));
             break;
         case JTSActionSheetItemViewPosition_Bottom:
@@ -99,6 +100,7 @@ CGFloat const JTSActionSheetItemDefaultHeight = 44.0;
             break;
             
         default:
+            corners = 0;
             break;
     }
     
