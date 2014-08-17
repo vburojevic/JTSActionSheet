@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "JTSActionSheet"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "Replacement for UIActionSheet on iOS, with customizable fonts and colors, and block-based actions."
   s.homepage     = "https://github.com/jaredsinclair/JTSActionSheet"
   s.license      = { :type => 'MIT', :file => 'LICENSE'  }
