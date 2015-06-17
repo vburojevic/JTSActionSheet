@@ -11,10 +11,10 @@
 #define JTSActionSheetDefaultActionColor [UIColor colorWithRed:0.09 green:0.50 blue:0.99 alpha:1.0]
 #define JTSActionSheetDefaultDestructionColor [UIColor colorWithRed:0.99 green:0.24 blue:0.22 alpha:1.0]
 #define JTSActionSheetDefaultTitleColor [UIColor colorWithWhite:0.5 alpha:1.0]
-#define JTSActionSheetDefaultBackgroundColor [UIColor colorWithWhite:0.99 alpha:0.96]
+#define JTSActionSheetDefaultBackgroundColor [UIColor colorWithWhite:0.99 alpha:1.0]
 #define JTSActionSheetDefaultBackdropShadowColor [UIColor colorWithWhite:0.0 alpha:0.4]
-#define JTSActionSheetDefaultSeparatorColor [UIColor colorWithWhite:0.0 alpha:0.6]
-#define JTSActionSheetDefaultButtonHighlightOverlayColor [UIColor colorWithWhite:0.0 alpha:0.09]
+#define JTSActionSheetDefaultSeparatorColor [UIColor colorWithWhite:0.0 alpha:1.0]
+#define JTSActionSheetDefaultButtonHighlightOverlayColor [UIColor colorWithWhite:0.0 alpha:1.0]
 
 @implementation JTSActionSheetTheme
 
