@@ -31,6 +31,7 @@
     
     theme.normalButtonColor = JTSActionSheetDefaultActionColor;
     theme.destructiveButtonColor = JTSActionSheetDefaultDestructionColor;
+    theme.destructiveButtonColor = JTSActionSheetDefaultActionColor;
     theme.titleColor = JTSActionSheetDefaultTitleColor;
     theme.backdropShadowColor = JTSActionSheetDefaultBackdropShadowColor;
     theme.backgroundColor = JTSActionSheetDefaultBackgroundColor;
