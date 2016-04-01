@@ -45,6 +45,16 @@
     [self.currentViewController playPresentationAnimation:YES tintableUnderlyingView:rootVC.view];
 }
 
+- (void)dismissSheet:(JTSActionSheet *)sheet {
+    UIWindow *window = sheet.window;
+    UIViewController *rootVC = window.rootViewController;
+    
+    [self.currentViewController playDismissalAnimation:NO tintableUnderlyingView:rootVC.view completion:^{
+        [self.currentViewController.view removeFromSuperview];
+        self.currentViewController = nil;
+    }];
+}
+
 #pragma mark - Private
 
 - (void)actionSheetViewControllerDidDismiss:(JTSActionSheetViewController *)viewController

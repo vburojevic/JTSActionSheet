@@ -16,5 +16,6 @@
 + (instancetype)sharedInstance;
 
 - (void)presentSheet:(JTSActionSheet *)sheet fromView:(UIView *)view;
+- (void)dismissSheet:(JTSActionSheet *)sheet;
 
 @end

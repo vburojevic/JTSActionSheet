@@ -93,6 +93,10 @@
     [[JTSActionSheetPresenter sharedInstance] presentSheet:self fromView:view];
 }
 
+- (void)dismiss {
+    [[JTSActionSheetPresenter sharedInstance] dismissSheet:self];
+}
+
 #pragma mark - UIView
 
 - (void)layoutSubviews {
