@@ -115,13 +115,8 @@
 #pragma mark - JTSActionSheetItemView
 
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
-<<<<<<< Updated upstream
-    CGFloat actualHeight = roundf(self.theme.normalButtonFont.capHeight + JTSActionSheetMargin * 4.0);
-    return MAX(actualHeight, 44.0);
-=======
     CGFloat actualHeight = roundf(self.theme.normalButtonFont.capHeight + JTSActionSheetInnerMargin * 4.0);
     return MAX(actualHeight, 56.0);
->>>>>>> Stashed changes
 }
 
 #pragma mark - Button Actions
