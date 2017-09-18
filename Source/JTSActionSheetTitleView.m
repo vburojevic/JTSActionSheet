@@ -34,7 +34,7 @@
         
         self.accessibilityTraits = UIAccessibilityTraitStaticText | UIAccessibilityTraitHeader;
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, JTSActionSheetMargin * 2.0, JTSActionSheetMargin * 2.0)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, JTSActionSheetInnerMargin * 2.0, JTSActionSheetInnerMargin * 2.0)];
         self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         self.titleLabel.numberOfLines = 24;
@@ -67,10 +67,10 @@
 
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
     CGRect boundingRect = [self.titleLabel.attributedText
-                           boundingRectWithSize:CGSizeMake(availableWidth - JTSActionSheetMargin*4.0, CGFLOAT_MAX)
+                           boundingRectWithSize:CGSizeMake(availableWidth - JTSActionSheetInnerMargin*4.0, CGFLOAT_MAX)
                            options:NSStringDrawingUsesLineFragmentOrigin
                            context:nil];
-    CGFloat actualHeight = roundf(JTSActionSheetMargin * 4.0 + boundingRect.size.height + 4.0); // pad by 4px to account for UILabel inconsistencies
+    CGFloat actualHeight = roundf(JTSActionSheetInnerMargin * 4.0 + boundingRect.size.height + 4.0); // pad by 4px to account for UILabel inconsistencies
     CGFloat maxHeight = 400;
     return MIN(actualHeight, maxHeight);
 }

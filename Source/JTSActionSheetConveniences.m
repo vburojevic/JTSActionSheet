@@ -8,4 +8,5 @@
 
 #import "JTSActionSheetConveniences.h"
 
-CGFloat const JTSActionSheetMargin = 8.0f;
+CGFloat const JTSActionSheetOuterMargin = 16.0f;
+CGFloat const JTSActionSheetInnerMargin = 8.0f;
