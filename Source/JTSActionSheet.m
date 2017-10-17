@@ -104,18 +104,18 @@
     [super layoutSubviews];
     CGFloat cursor = self.bounds.size.height;
     CGFloat availableWidth = self.bounds.size.width;
-    CGFloat buttonWidth = availableWidth - JTSActionSheetMargin * 2.0;
+    CGFloat buttonWidth = availableWidth - JTSActionSheetOuterMargin * 2.0;
     CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:buttonWidth];
-    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, buttonWidth, buttonHeight);
+    CGRect buttonBounds = CGRectMake(JTSActionSheetOuterMargin, 0, buttonWidth, buttonHeight);
     
     // CANCEL BUTTON
     CGRect cancelFrame = buttonBounds;
-    cancelFrame.origin.x = JTSActionSheetMargin;
-    cancelFrame.origin.y = cursor - JTSActionSheetMargin - buttonBounds.size.height;
+    cancelFrame.origin.x = JTSActionSheetOuterMargin;
+    cancelFrame.origin.y = cursor - JTSActionSheetOuterMargin - buttonBounds.size.height;
     self.cancelButton.frame = cancelFrame;
     
     // GAP BETWEEN CANCEL BUTTON AND ACTION BUTTONS
-    cursor = cancelFrame.origin.y - JTSActionSheetMargin;
+    cursor = cancelFrame.origin.y - JTSActionSheetOuterMargin;
     
     // GAP BETWEEN EACH ACTION BUTTON
     CGFloat gap = 1.0f / [UIScreen mainScreen].scale;
@@ -144,7 +144,7 @@
         for (NSInteger index = 0; index < self.actionButtonSeparators.count; index++) {
             cursor -= gap;
             JTSActionSheetSeparatorView *view = self.actionButtonSeparators[index];
-            CGRect separatorFrame = CGRectMake(JTSActionSheetMargin, cursor, availableWidth - JTSActionSheetMargin * 2.0, gap);
+            CGRect separatorFrame = CGRectMake(JTSActionSheetInnerMargin, cursor, availableWidth - JTSActionSheetInnerMargin * 2.0, gap);
             view.frame = separatorFrame;
             if (index != self.actionButtonSeparators.count-1) {
                 cursor -= buttonHeight;
@@ -169,13 +169,13 @@
     if (self.motionEffects.count == 0) {
         UIInterpolatingMotionEffect *verticalEffect;
         verticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-        verticalEffect.minimumRelativeValue = @(-JTSActionSheetMargin);
-        verticalEffect.maximumRelativeValue = @(JTSActionSheetMargin);
+        verticalEffect.minimumRelativeValue = @(-JTSActionSheetInnerMargin);
+        verticalEffect.maximumRelativeValue = @(JTSActionSheetInnerMargin);
         
         UIInterpolatingMotionEffect *horizontalEffect;
         horizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
-        horizontalEffect.minimumRelativeValue = @(-JTSActionSheetMargin);
-        horizontalEffect.maximumRelativeValue = @(JTSActionSheetMargin);
+        horizontalEffect.minimumRelativeValue = @(-JTSActionSheetInnerMargin);
+        horizontalEffect.maximumRelativeValue = @(JTSActionSheetInnerMargin);
         
         UIMotionEffectGroup *effectGroup = [[UIMotionEffectGroup alloc] init];
         [effectGroup setMotionEffects:@[horizontalEffect, verticalEffect]];
@@ -195,17 +195,17 @@
     
     CGFloat totalHeight = 0;
     
-    CGFloat buttonWidth = availableWidth - JTSActionSheetMargin * 2.0;
+    CGFloat buttonWidth = availableWidth - JTSActionSheetInnerMargin * 2.0;
     CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:buttonWidth];
-    CGRect buttonBounds = CGRectMake(JTSActionSheetMargin, 0, buttonWidth, buttonHeight);
+    CGRect buttonBounds = CGRectMake(JTSActionSheetInnerMargin, 0, buttonWidth, buttonHeight);
     
     CGFloat gap = 1.0f / [UIScreen mainScreen].scale;
 
     // bottom gap plus cancel button
-    totalHeight += JTSActionSheetMargin + buttonBounds.size.height;
+    totalHeight += JTSActionSheetInnerMargin + buttonBounds.size.height;
     
     // gap between cancel button and action buttons
-    totalHeight += JTSActionSheetMargin;
+    totalHeight += JTSActionSheetInnerMargin;
     
     // action buttons
     totalHeight += buttonBounds.size.height * self.actionButtons.count + gap * self.actionButtons.count-1;

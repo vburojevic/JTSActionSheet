@@ -107,7 +107,7 @@
         [self.button setTitle:item.title forState:UIControlStateNormal];
         
         CGFloat baselineOffset = (isCancelItem) ? theme.boldButtonBaselineOffset : theme.normalButtonBaselineOffset;
-        self.button.contentEdgeInsets = UIEdgeInsetsMake(0 - baselineOffset, JTSActionSheetMargin * 2.0, 0, JTSActionSheetMargin * 2.0);
+        self.button.contentEdgeInsets = UIEdgeInsetsMake(0 - baselineOffset, JTSActionSheetInnerMargin * 2.0, 0, JTSActionSheetInnerMargin * 2.0);
         
         [self addSubview:self.button];
 
@@ -118,8 +118,8 @@
 #pragma mark - JTSActionSheetItemView
 
 - (CGFloat)intrinsicHeightGivenAvailableWidth:(CGFloat)availableWidth {
-    CGFloat actualHeight = roundf(self.theme.normalButtonFont.capHeight + JTSActionSheetMargin * 4.0);
-    return MAX(actualHeight, 44.0);
+    CGFloat actualHeight = roundf(self.theme.normalButtonFont.capHeight + JTSActionSheetInnerMargin * 4.0);
+    return MAX(actualHeight, 56.0);
 }
 
 #pragma mark - Button Actions

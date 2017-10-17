@@ -10,8 +10,8 @@
 
 #import "JTSActionSheetTheme.h"
 
-CGFloat const JTSActionSheetItemViewCornerRadius = 0.0f;
-CGFloat const JTSActionSheetItemDefaultHeight = 50.0;
+CGFloat const JTSActionSheetItemViewCornerRadius = 16.0f;
+CGFloat const JTSActionSheetItemDefaultHeight = 44.0;
 
 @interface JTSActionSheetItemView ()
 
@@ -30,11 +30,11 @@ CGFloat const JTSActionSheetItemDefaultHeight = 50.0;
 - (instancetype)initWithTheme:(JTSActionSheetTheme *)theme position:(JTSActionSheetItemViewPosition)position {
     self = [super initWithFrame:CGRectMake(0, 0, 304, 44)];
     if (self) {
-        
+
         _isInitialized = YES;
         _theme = theme;
         _position = position;
-                
+
         if (theme.backgroundStyle == JTSActionSheetStyle_WhiteBlurred) {
             NSAssert(NO, @"Blurred themes not yet supported");
         }
@@ -55,7 +55,7 @@ CGFloat const JTSActionSheetItemDefaultHeight = 50.0;
 #pragma mark - UIView
 
 - (void)setFrame:(CGRect)frame {
-    
+
     if (self.isInitialized == NO) {
         [super setFrame:frame];
     }
@@ -81,9 +81,9 @@ CGFloat const JTSActionSheetItemDefaultHeight = 50.0;
 #pragma mark - Private
 
 - (UIRectCorner)cornerClipForPosition:(JTSActionSheetItemViewPosition)position {
-    
+
     UIRectCorner corners;
-    
+
     switch (position) {
         case JTSActionSheetItemViewPosition_Single:
             corners = UIRectCornerAllCorners;
@@ -98,12 +98,12 @@ CGFloat const JTSActionSheetItemDefaultHeight = 50.0;
         case JTSActionSheetItemViewPosition_Bottom:
             corners = UIRectCornerBottomLeft | UIRectCornerBottomRight;
             break;
-            
+
         default:
             corners = 0;
             break;
     }
-    
+
     return corners;
 }
 

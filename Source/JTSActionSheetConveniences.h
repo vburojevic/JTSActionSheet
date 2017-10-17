@@ -20,4 +20,5 @@ static inline JTSActionSheetItem * JTSActionSheetDefaultCancelItem(NSString *alt
     return [JTSActionSheetItem itemWithTitle:title action:nil isDestructive:NO];
 }
 
-extern CGFloat const JTSActionSheetMargin;
+extern CGFloat const JTSActionSheetOuterMargin;
+extern CGFloat const JTSActionSheetInnerMargin;
