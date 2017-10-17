@@ -10,7 +10,6 @@
 
 #import "JTSActionSheetTheme.h"
 
-CGFloat const JTSActionSheetItemViewCornerRadius = 16.0f;
 CGFloat const JTSActionSheetItemDefaultHeight = 44.0;
 
 @interface JTSActionSheetItemView ()
@@ -67,7 +66,7 @@ CGFloat const JTSActionSheetItemDefaultHeight = 44.0;
         [super setFrame:frame];
         if (clippingMaskIsDirty || self.roundedCornerMask == nil) {
             UIRectCorner corners = [self cornerClipForPosition:self.position];
-            CGSize radii = CGSizeMake(JTSActionSheetItemViewCornerRadius, JTSActionSheetItemViewCornerRadius);
+            CGSize radii = [self hasSafeArea] ? CGSizeMake(JTSActionSheetItemViewCornerRadius, JTSActionSheetItemViewCornerRadius) : CGSizeMake(0, 0);
             if (self.roundedCornerMask == nil) {
                 self.roundedCornerMask = [CAShapeLayer layer];
                 self.roundedCornerMask.frame = self.bounds;
@@ -79,6 +78,11 @@ CGFloat const JTSActionSheetItemDefaultHeight = 44.0;
 }
 
 #pragma mark - Private
+
+- (BOOL)hasSafeArea
+{
+  return [UIApplication sharedApplication].windows.firstObject.safeAreaInsets.top > 0;
+}
 
 - (UIRectCorner)cornerClipForPosition:(JTSActionSheetItemViewPosition)position {
 
