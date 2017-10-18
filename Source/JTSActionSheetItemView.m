@@ -79,7 +79,7 @@ CGFloat const JTSActionSheetItemDefaultHeight = 50.0;
 
 #pragma mark - Private
 
-+ (BOOL)hasSafeArea
+- (BOOL)hasSafeArea
 {
 	if (@available(iOS 11.0, *)) {
 		return [UIApplication sharedApplication].windows.firstObject.safeAreaInsets.top > 0;
