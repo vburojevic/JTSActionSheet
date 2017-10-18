@@ -79,9 +79,14 @@ CGFloat const JTSActionSheetItemDefaultHeight = 50.0;
 
 #pragma mark - Private
 
-- (BOOL)hasSafeArea
++ (BOOL)hasSafeArea
 {
-  return [UIApplication sharedApplication].windows.firstObject.safeAreaInsets.top > 0;
+	if (@available(iOS 11.0, *)) {
+		return [UIApplication sharedApplication].windows.firstObject.safeAreaInsets.top > 0;
+	} else {
+		// Fallback on earlier versions
+		return NO;
+	}
 }
 
 - (UIRectCorner)cornerClipForPosition:(JTSActionSheetItemViewPosition)position {
