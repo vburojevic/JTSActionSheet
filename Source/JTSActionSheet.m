@@ -144,7 +144,7 @@
         for (NSInteger index = 0; index < self.actionButtonSeparators.count; index++) {
             cursor -= gap;
             JTSActionSheetSeparatorView *view = self.actionButtonSeparators[index];
-            CGRect separatorFrame = CGRectMake(JTSActionSheetInnerMargin, cursor, availableWidth - JTSActionSheetInnerMargin * 2.0, gap);
+            CGRect separatorFrame = CGRectMake(JTSActionSheetOuterMargin, cursor, availableWidth - JTSActionSheetOuterMargin * 2.0, gap);
             view.frame = separatorFrame;
             if (index != self.actionButtonSeparators.count-1) {
                 cursor -= buttonHeight;
