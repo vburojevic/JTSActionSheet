@@ -296,8 +296,6 @@
     }];
 }
 
-@end
-
 #pragma mark - Convenience
 
 - (BOOL)hasSafeArea
@@ -309,3 +307,5 @@
 		return NO;
 	}
 }
+
+@end
