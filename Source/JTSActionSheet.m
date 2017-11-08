@@ -111,7 +111,7 @@
     // CANCEL BUTTON
     CGRect cancelFrame = buttonBounds;
     cancelFrame.origin.x = JTSActionSheetOuterMargin;
-    cancelFrame.origin.y = cursor - JTSActionSheetOuterMargin - buttonBounds.size.height;
+    cancelFrame.origin.y = cursor - ([self hasSafeArea] ? 32 : JTSActionSheetOuterMargin) - buttonBounds.size.height;
     self.cancelButton.frame = cancelFrame;
     
     // GAP BETWEEN CANCEL BUTTON AND ACTION BUTTONS
@@ -298,8 +298,14 @@
 
 @end
 
+#pragma mark - Convenience
 
-
-
-
-
+- (BOOL)hasSafeArea
+{
+	if (@available(iOS 11.0, *)) {
+		return [UIApplication sharedApplication].windows.firstObject.safeAreaInsets.top > 0;
+	} else {
+		// Fallback on earlier versions
+		return NO;
+	}
+}
