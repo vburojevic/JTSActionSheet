@@ -195,17 +195,17 @@
     
     CGFloat totalHeight = 0;
     
-    CGFloat buttonWidth = availableWidth - JTSActionSheetInnerMargin * 2.0;
+    CGFloat buttonWidth = availableWidth - JTSActionSheetOuterMargin * 2.0;
     CGFloat buttonHeight = [self.cancelButton intrinsicHeightGivenAvailableWidth:buttonWidth];
-    CGRect buttonBounds = CGRectMake(JTSActionSheetInnerMargin, 0, buttonWidth, buttonHeight);
+    CGRect buttonBounds = CGRectMake(JTSActionSheetOuterMargin, 0, buttonWidth, buttonHeight);
     
     CGFloat gap = 1.0f / [UIScreen mainScreen].scale;
 
     // bottom gap plus cancel button
-    totalHeight += JTSActionSheetInnerMargin + buttonBounds.size.height;
+    totalHeight += JTSActionSheetOuterMargin + buttonBounds.size.height;
     
     // gap between cancel button and action buttons
-    totalHeight += JTSActionSheetInnerMargin;
+    totalHeight += JTSActionSheetOuterMargin * 2;
     
     // action buttons
     totalHeight += buttonBounds.size.height * self.actionButtons.count + gap * self.actionButtons.count-1;
